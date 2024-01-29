@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e042294f75974f45b18511e8f6e9ff1c" Name="Diagram1" >
+        <EntityTypeShape EntityType="Model.Movie" Width="1.5" PointX="5.375" PointY="2.75" />
+        <EntityTypeShape EntityType="Model.Genre" Width="1.5" PointX="9.875" PointY="1.875" />
+        <EntityTypeShape EntityType="Model.Actor" Width="1.5" PointX="8.625" PointY="4.375" />
+        <EntityTypeShape EntityType="Model.Director" Width="1.5" PointX="2.375" PointY="3.125" />
+        <EntityTypeShape EntityType="Model.UploadedPoster" Width="1.5" PointX="6.75" PointY="6.625" />
+        <AssociationConnector Association="Model.MovieDirector" />
+        <AssociationConnector Association="Model.MovieGenre" />
+        <AssociationConnector Association="Model.MovieActor" />
+        <AssociationConnector Association="Model.MovieUploadedPoster" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

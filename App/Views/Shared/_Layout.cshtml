@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Apartments</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        <nav id="pageHeader" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div id="drugiDioHeader" class="container-fluid">
+                <a class="navbar-brand" asp-area="" href="~/Movie/Index" target="_self" id="videos">Videos</a>
+                <a class="navbar-brand" asp-area="" href="~/Genre/Index" target="_self" id="genres">Genres</a>
+                <a class="navbar-brand" asp-area="" href="~/Director/Index" target="_self" id="genres">Directors</a>
+                <a class="navbar-brand" asp-area="" href="~/Actor/Index" target="_self" id="tags">Actors</a>
+            </div>
+        </nav>
+    </header>
+    <br/>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

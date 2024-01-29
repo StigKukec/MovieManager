@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="Movies" EntityType="Model.Store.Movies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Genres" EntityType="Model.Store.Genres" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Actors" EntityType="Model.Store.Actors" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Directors" EntityType="Model.Store.Directors" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UploadedPosters" EntityType="Model.Store.UploadedPosters" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MovieGenre" EntityType="Model.Store.MovieGenre" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MovieActor" EntityType="Model.Store.MovieActor" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="MovieDirector" Association="Model.Store.MovieDirector">
+      <End Role="Movie" EntitySet="Movies" />
+      <End Role="Director" EntitySet="Directors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MovieGenre_Movie" Association="Model.Store.FK_MovieGenre_Movie">
+      <End Role="Movie" EntitySet="Movies" />
+      <End Role="MovieGenre" EntitySet="MovieGenre" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MovieGenre_Genre" Association="Model.Store.FK_MovieGenre_Genre">
+      <End Role="Genre" EntitySet="Genres" />
+      <End Role="MovieGenre" EntitySet="MovieGenre" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MovieActor_Movie" Association="Model.Store.FK_MovieActor_Movie">
+      <End Role="Movie" EntitySet="Movies" />
+      <End Role="MovieActor" EntitySet="MovieActor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MovieActor_Actor" Association="Model.Store.FK_MovieActor_Actor">
+      <End Role="Actor" EntitySet="Actors" />
+      <End Role="MovieActor" EntitySet="MovieActor" />
+    </AssociationSet>
+    <AssociationSet Name="MovieUploadedPoster" Association="Model.Store.MovieUploadedPoster">
+      <End Role="Movie" EntitySet="Movies" />
+      <End Role="UploadedPoster" EntitySet="UploadedPosters" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Movies">
+    <Key>
+      <PropertyRef Name="IDMovie" />
+    </Key>
+    <Property Name="IDMovie" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="95" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="3000" />
+    <Property Name="TotalTime" Type="int" Nullable="false" />
+    <Property Name="DirectorIDDirector" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Genres">
+    <Key>
+      <PropertyRef Name="IDGenre" />
+    </Key>
+    <Property Name="IDGenre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1500" />
+  </EntityType>
+  <EntityType Name="Actors">
+    <Key>
+      <PropertyRef Name="IDActor" />
+    </Key>
+    <Property Name="IDActor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="75" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="Directors">
+    <Key>
+      <PropertyRef Name="IDDirector" />
+    </Key>
+    <Property Name="IDDirector" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="75" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="UploadedPosters">
+    <Key>
+      <PropertyRef Name="IDUploadedPoster" />
+    </Key>
+    <Property Name="IDUploadedPoster" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="65" />
+    <Property Name="ContentType" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Content" Type="varbinary(max)" Nullable="false" />
+    <Property Name="MovieIDMovie" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MovieGenre">
+    <Key>
+      <PropertyRef Name="Movies_IDMovie" />
+      <PropertyRef Name="Genres_IDGenre" />
+    </Key>
+    <Property Name="Movies_IDMovie" Type="int" Nullable="false" />
+    <Property Name="Genres_IDGenre" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MovieActor">
+    <Key>
+      <PropertyRef Name="Movies_IDMovie" />
+      <PropertyRef Name="Actors_IDActor" />
+    </Key>
+    <Property Name="Movies_IDMovie" Type="int" Nullable="false" />
+    <Property Name="Actors_IDActor" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="MovieDirector">
+    <End Role="Movie" Type="Model.Store.Movies" Multiplicity="*" />
+    <End Role="Director" Type="Model.Store.Directors" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Director">
+        <PropertyRef Name="IDDirector" />
+      </Principal>
+      <Dependent Role="Movie">
+        <PropertyRef Name="DirectorIDDirector" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MovieUploadedPoster">
+    <End Role="Movie" Type="Model.Store.Movies" Multiplicity="1" />
+    <End Role="UploadedPoster" Type="Model.Store.UploadedPosters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movie">
+        <PropertyRef Name="IDMovie" />
+      </Principal>
+      <Dependent Role="UploadedPoster">
+        <PropertyRef Name="MovieIDMovie" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MovieGenre_Movie">
+    <End Role="Movie" Type="Model.Store.Movies" Multiplicity="1" />
+    <End Role="MovieGenre" Type="Model.Store.MovieGenre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movie">
+        <PropertyRef Name="IDMovie" />
+      </Principal>
+      <Dependent Role="MovieGenre">
+        <PropertyRef Name="Movies_IDMovie" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MovieGenre_Genre">
+    <End Role="MovieGenre" Type="Model.Store.MovieGenre" Multiplicity="*" />
+    <End Role="Genre" Type="Model.Store.Genres" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="IDGenre" />
+      </Principal>
+      <Dependent Role="MovieGenre">
+        <PropertyRef Name="Genres_IDGenre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MovieActor_Movie">
+    <End Role="Movie" Type="Model.Store.Movies" Multiplicity="1" />
+    <End Role="MovieActor" Type="Model.Store.MovieActor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movie">
+        <PropertyRef Name="IDMovie" />
+      </Principal>
+      <Dependent Role="MovieActor">
+        <PropertyRef Name="Movies_IDMovie" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MovieActor_Actor">
+    <End Role="MovieActor" Type="Model.Store.MovieActor" Multiplicity="*" />
+    <End Role="Actor" Type="Model.Store.Actors" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Actor">
+        <PropertyRef Name="IDActor" />
+      </Principal>
+      <Dependent Role="MovieActor">
+        <PropertyRef Name="Actors_IDActor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model_Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Movies" EntityType="Model.Movie" />
+          <EntitySet Name="Genres" EntityType="Model.Genre" />
+          <EntitySet Name="Actors" EntityType="Model.Actor" />
+          <EntitySet Name="Directors" EntityType="Model.Director" />
+          <EntitySet Name="UploadedPosters" EntityType="Model.UploadedPoster" />
+          <AssociationSet Name="MovieDirector" Association="Model.MovieDirector">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="Director" EntitySet="Directors" />
+          </AssociationSet>
+          <AssociationSet Name="MovieGenre" Association="Model.MovieGenre">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="Genre" EntitySet="Genres" />
+          </AssociationSet>
+          <AssociationSet Name="MovieActor" Association="Model.MovieActor">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="Actor" EntitySet="Actors" />
+          </AssociationSet>
+          <AssociationSet Name="MovieUploadedPoster" Association="Model.MovieUploadedPoster">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="UploadedPoster" EntitySet="UploadedPosters" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="IDMovie" />
+          </Key>
+          <Property Name="IDMovie" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="95" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="3000" />
+          <Property Name="TotalTime" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Director" Relationship="Model.MovieDirector" FromRole="Movie" ToRole="Director" />
+          <Property Name="DirectorIDDirector" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Genres" Relationship="Model.MovieGenre" FromRole="Movie" ToRole="Genre" />
+          <NavigationProperty Name="Actors" Relationship="Model.MovieActor" FromRole="Movie" ToRole="Actor" />
+          <NavigationProperty Name="UploadedPosters" Relationship="Model.MovieUploadedPoster" FromRole="Movie" ToRole="UploadedPoster" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="IDGenre" />
+          </Key>
+          <Property Name="IDGenre" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Movies" Relationship="Model.MovieGenre" FromRole="Genre" ToRole="Movie" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="1500" />
+        </EntityType>
+        <EntityType Name="Actor">
+          <Key>
+            <PropertyRef Name="IDActor" />
+          </Key>
+          <Property Name="IDActor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="75" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="75" />
+          <NavigationProperty Name="Movies" Relationship="Model.MovieActor" FromRole="Actor" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="Director">
+          <Key>
+            <PropertyRef Name="IDDirector" />
+          </Key>
+          <Property Name="IDDirector" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="75" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="75" />
+          <NavigationProperty Name="Movies" Relationship="Model.MovieDirector" FromRole="Director" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="UploadedPoster">
+          <Key>
+            <PropertyRef Name="IDUploadedPoster" />
+          </Key>
+          <Property Name="IDUploadedPoster" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Movie" Relationship="Model.MovieUploadedPoster" FromRole="UploadedPoster" ToRole="Movie" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="65" />
+          <Property Name="ContentType" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Content" Type="Binary" Nullable="false" />
+          <Property Name="MovieIDMovie" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="MovieDirector">
+          <End Type="Model.Movie" Role="Movie" Multiplicity="*" />
+          <End Type="Model.Director" Role="Director" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Director">
+              <PropertyRef Name="IDDirector" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="DirectorIDDirector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MovieGenre">
+          <End Type="Model.Movie" Role="Movie" Multiplicity="*" />
+          <End Type="Model.Genre" Role="Genre" Multiplicity="*" />
+        </Association>
+        <Association Name="MovieActor">
+          <End Type="Model.Movie" Role="Movie" Multiplicity="*" />
+          <End Type="Model.Actor" Role="Actor" Multiplicity="*" />
+        </Association>
+        <Association Name="MovieUploadedPoster">
+          <End Type="Model.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="Model.UploadedPoster" Role="UploadedPoster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="IDMovie" />
+            </Principal>
+            <Dependent Role="UploadedPoster">
+              <PropertyRef Name="MovieIDMovie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Model_Container">
+    <EntitySetMapping Name="Movies">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Movie)">
+        <MappingFragment StoreEntitySet="Movies">
+          <ScalarProperty Name="IDMovie" ColumnName="IDMovie" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+          <ScalarProperty Name="DirectorIDDirector" ColumnName="DirectorIDDirector" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Genres">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Genre)">
+        <MappingFragment StoreEntitySet="Genres">
+          <ScalarProperty Name="IDGenre" ColumnName="IDGenre" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Actors">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Actor)">
+        <MappingFragment StoreEntitySet="Actors">
+          <ScalarProperty Name="IDActor" ColumnName="IDActor" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Directors">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Director)">
+        <MappingFragment StoreEntitySet="Directors">
+          <ScalarProperty Name="IDDirector" ColumnName="IDDirector" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UploadedPosters">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.UploadedPoster)">
+        <MappingFragment StoreEntitySet="UploadedPosters">
+          <ScalarProperty Name="IDUploadedPoster" ColumnName="IDUploadedPoster" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="MovieIDMovie" ColumnName="MovieIDMovie" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MovieGenre" TypeName="Model.MovieGenre" StoreEntitySet="MovieGenre">
+      <EndProperty Name="Movie">
+        <ScalarProperty Name="IDMovie" ColumnName="Movies_IDMovie" />
+      </EndProperty>
+      <EndProperty Name="Genre">
+        <ScalarProperty Name="IDGenre" ColumnName="Genres_IDGenre" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MovieActor" TypeName="Model.MovieActor" StoreEntitySet="MovieActor">
+      <EndProperty Name="Movie">
+        <ScalarProperty Name="IDMovie" ColumnName="Movies_IDMovie" />
+      </EndProperty>
+      <EndProperty Name="Actor">
+        <ScalarProperty Name="IDActor" ColumnName="Actors_IDActor" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
